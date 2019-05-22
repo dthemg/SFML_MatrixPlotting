@@ -40,6 +40,7 @@ public:
 	void print() const;
 	unsigned getRows() const;
 	unsigned getCols() const;
+	void draw(sf::RenderWindow& window);
 };
 
 #endif

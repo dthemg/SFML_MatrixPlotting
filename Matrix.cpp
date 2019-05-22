@@ -1,5 +1,6 @@
-
+#include <SFML/Graphics.hpp>
 #include "Matrix.h"
+#include <iostream>
 
 using namespace std;
 
@@ -79,4 +80,47 @@ void Matrix::print() const
 		}
 		cout << endl;
 	}
+}
+
+void Matrix::draw(sf::RenderWindow& window)
+{
+	
+	sf::Vector2u winShape = window.getSize();
+
+	float stepX = winShape.x / (m_colSize - 1);
+	float stepY = winShape.y / (m_rowSize);
+	unsigned numVertices = (2 * m_colSize - 1) * m_rowSize;
+
+	sf::VertexArray vertices = sf::VertexArray(sf::TriangleStrip, numVertices);
+	
+	// Deal with beginning
+
+	// Main line
+
+
+	for (int i = 0; i < m_colSize*2 - 1; i++) // Maybe just do for the row???
+	{
+		float x;
+		float y;
+
+		if (i % 2 == 0) {
+			x = stepX * (i / 2);
+			y = 0.f;
+		}
+		else {
+			x = stepX * ((i + 1) / 2);
+			y = stepY;
+		}
+		
+		vertices[i].position = sf::Vector2f(x, y);
+		vertices[i].color = sf::Color::Color(i * 1, i * 1, i * 1);
+	}
+
+	// Deal with ending
+	// Go backwards
+
+	// Repeat
+
+
+	window.draw(vertices);
 }
