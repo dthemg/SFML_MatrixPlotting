@@ -1,11 +1,14 @@
 #include <SFML/Graphics.hpp>
 #include "Matrix.h"
 #include <iostream>
+#include <math.h>
 
 using namespace std;
 
+
+
 // Constructor
-Matrix::Matrix(unsigned rowSize, unsigned colSize, double initial)
+Matrix::Matrix(unsigned rowSize, unsigned colSize, float initial)
 {
 	m_rowSize = rowSize;
 	m_colSize = colSize;
@@ -14,8 +17,12 @@ Matrix::Matrix(unsigned rowSize, unsigned colSize, double initial)
 	{
 		m_matrix[i].resize(colSize, initial);
 	}
+	image.create(m_rowSize, m_colSize, sf::Color::Black);//, sf::Color::Red);
+	texture.loadFromImage(image);
+	sprite.setTexture(texture);
 }
 
+/*
 // Copy constuctor
 Matrix::Matrix(const Matrix& B)
 {
@@ -23,7 +30,7 @@ Matrix::Matrix(const Matrix& B)
 	this->m_rowSize = B.getRows();
 	this->m_matrix = B.m_matrix;
 }
-
+*/
 // Destructor
 Matrix::~Matrix() {
 	// Should I do something here?
@@ -50,7 +57,7 @@ Matrix Matrix::operator+(Matrix &B)
 // TODO Scalar operations
 
 // Getting a matrix value
-double& Matrix::operator()(const unsigned & rowNo, const unsigned & colNo)
+float& Matrix::operator()(const unsigned & rowNo, const unsigned & colNo)
 {
 	return this->m_matrix[rowNo][colNo];
 }
@@ -82,45 +89,19 @@ void Matrix::print() const
 	}
 }
 
-void Matrix::draw(sf::RenderWindow& window)
+void Matrix::update()
 {
-	
-	sf::Vector2u winShape = window.getSize();
-
-	float stepX = winShape.x / (m_colSize - 1);
-	float stepY = winShape.y / (m_rowSize);
-	unsigned numVertices = (2 * m_colSize - 1) * m_rowSize;
-
-	sf::VertexArray vertices = sf::VertexArray(sf::TriangleStrip, numVertices);
-	
-	// Deal with beginning
-
-	// Main line
-
-
-	for (int i = 0; i < m_colSize*2 - 1; i++) // Maybe just do for the row???
-	{
-		float x;
-		float y;
-
-		if (i % 2 == 0) {
-			x = stepX * (i / 2);
-			y = 0.f;
+	t += 0.01;
+	float val = 100 + 100*sin(t);
+	for (unsigned int i = 0; i < m_rowSize; i++) {
+		for (unsigned int j = 0; j < m_colSize; j++) {
+			image.setPixel(i, j, sf::Color(val, val, val));//(m_matrix[i][j], m_matrix[i][j], m_matrix[i][j]));
 		}
-		else {
-			x = stepX * ((i + 1) / 2);
-			y = stepY;
-		}
-		
-		vertices[i].position = sf::Vector2f(x, y);
-		vertices[i].color = sf::Color::Color(i * 1, i * 1, i * 1);
 	}
+}
 
-	// Deal with ending
-	// Go backwards
-
-	// Repeat
-
-
-	window.draw(vertices);
+sf::Sprite Matrix::getMatrixSprite()
+{
+	texture.loadFromImage(image);
+	return sprite;
 }

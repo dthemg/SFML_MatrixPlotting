@@ -11,22 +11,20 @@
 
 using std::vector;
 
+
 class Matrix
 {
-private:
-	unsigned m_rowSize;
-	unsigned m_colSize;
-	vector<vector<double> > m_matrix;
-
 
 public:
 	// Constructor declaration
-	Matrix(unsigned, unsigned, double); 
-	Matrix(const Matrix&);
+	Matrix(unsigned, unsigned, float); 
+	//Matrix(const Matrix&);
 	~Matrix();
 
 	// Matrix operators
 	Matrix operator+(Matrix&); // Address -> using the matrix itself
+	void update();
+	sf::Sprite getMatrixSprite();
 	//Matrix operator-(Matrix&);
 
 	// Scalar operators
@@ -36,11 +34,18 @@ public:
 	//Matrix operator/(double);
 	
 	// Functionality operators
-	double& operator()(const unsigned&, const unsigned&);
+	float& operator()(const unsigned&, const unsigned&);
 	void print() const;
 	unsigned getRows() const;
 	unsigned getCols() const;
-	void draw(sf::RenderWindow& window);
-};
 
+private:
+	unsigned m_rowSize;
+	unsigned m_colSize;
+	vector<vector<float> > m_matrix;
+	sf::Image image;
+	sf::Texture texture;
+	sf::Sprite sprite;
+	float t;
+};
 #endif

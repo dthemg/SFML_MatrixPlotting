@@ -5,37 +5,20 @@ using namespace std;
 
 int main()
 {
-	const int winHeight = 800;
-	const int winWidth = 800;
+	const int winHeight = 512;
+	const int winWidth = 1024;
 	
-	const int N = 1;
-	const int M = 100;
-	double initialValA = 1.0;
-	double initialValB = 2.0;
+	float initialValA = 100.0;
+	float initialValB = 50.0;
 
-	sf::VertexArray triangle(sf::Triangles, 3);
-	triangle[0].position = sf::Vector2f(10.f, 10.f);
-	triangle[1].position = sf::Vector2f(100.f, 200.f);
-	triangle[2].position = sf::Vector2f(300.f, 100.f);
-
-	triangle[0].color = sf::Color::Red;
-	triangle[1].color = sf::Color::Blue;
-	triangle[2].color = sf::Color::Green;
-
-	
-
-
-	Matrix A(N, M, initialValA);
-	Matrix B(N, M, initialValB);
-	Matrix C = A + B;
-	C.print();
-
-
+	Matrix A(winHeight, winWidth, initialValA);
+	//Matrix B(winHeight, winWidth, initialValB);
+	//Matrix C = A + B;
+	//C.print();
 
 	sf::RenderWindow window(sf::VideoMode(winHeight, winWidth), "Plotting matrix contents");
 	window.setFramerateLimit(60);
 	
-
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -45,8 +28,12 @@ int main()
 				window.close();
 		}
 
+		A.update();
+
 		window.clear();
-		C.draw(window);
+		
+		window.draw(A.getMatrixSprite());
+
 		window.display();
 	}
 
