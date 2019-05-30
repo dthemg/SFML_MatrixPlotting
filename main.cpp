@@ -6,7 +6,7 @@ using namespace std;
 int main()
 {
 	const int winHeight = 512;
-	const int winWidth = 1024;
+	const int winWidth = 512;
 	
 	float initialValA = 100.0;
 	float initialValB = 50.0;

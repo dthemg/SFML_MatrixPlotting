@@ -46,6 +46,8 @@ private:
 	sf::Image image;
 	sf::Texture texture;
 	sf::Sprite sprite;
-	float t;
+	float t = 0;
+	
+	sf::Image colorMap;
 };
 #endif

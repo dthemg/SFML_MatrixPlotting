@@ -1,7 +1,10 @@
+#define _USE_MATH_DEFINES
+
 #include <SFML/Graphics.hpp>
 #include "Matrix.h"
 #include <iostream>
 #include <math.h>
+#include "Utility.h"
 
 using namespace std;
 
@@ -20,6 +23,8 @@ Matrix::Matrix(unsigned rowSize, unsigned colSize, float initial)
 	image.create(m_rowSize, m_colSize, sf::Color::Black);//, sf::Color::Red);
 	texture.loadFromImage(image);
 	sprite.setTexture(texture);
+
+	colorMap.loadFromFile("colormap.jpg");
 }
 
 /*
@@ -30,7 +35,7 @@ Matrix::Matrix(const Matrix& B)
 	this->m_rowSize = B.getRows();
 	this->m_matrix = B.m_matrix;
 }
-*/
+	*/
 // Destructor
 Matrix::~Matrix() {
 	// Should I do something here?
@@ -91,11 +96,14 @@ void Matrix::print() const
 
 void Matrix::update()
 {
-	t += 0.01;
-	float val = 100 + 100*sin(t);
-	for (unsigned int i = 0; i < m_rowSize; i++) {
-		for (unsigned int j = 0; j < m_colSize; j++) {
-			image.setPixel(i, j, sf::Color(val, val, val));//(m_matrix[i][j], m_matrix[i][j], m_matrix[i][j]));
+	t += 0.2;
+	float val;// = 0.5 + 0.5 * sin(t);
+	for (unsigned int i = 0; i < m_rowSize; i++) 
+	{
+		for (unsigned int j = 0; j < m_colSize; j++) 
+		{
+			val = 0.5 + 0.5 * sin(t + (float)(5*M_PI*i/m_rowSize + 2*M_PI*j/m_colSize));
+			image.setPixel(i, j, colorGradient(colorMap, val));//sf::Color(val, val, val));//(m_matrix[i][j], m_matrix[i][j], m_matrix[i][j]));
 		}
 	}
 }
